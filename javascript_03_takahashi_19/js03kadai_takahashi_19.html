@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="simple.css">
+    <title>シャオリンの部屋</title>
+</head>
+
+<body>
+    <main>
+        <div class="top" id="mein">
+            <h1 class="midashi">🏠シャオリンのお部屋🏠</h1>
+
+            <p>こんにちは!　オラ、シャオリンだべさ。栃木県ヒンランドの生まれだべさ。</p>
+            <p>遊びに来てくれてありがとうだべさ。オラとお話してくんろ。</p>
+                
+            　<div class="gazou"><img src="img/syaorinn.PNG" alt="しゃおりん"></div>
+           <button class="btm" id="botann">シャオリンとお話して行く</button>
+           <p id="talk"></p>
+        </div>
+
+        <div>
+          <textarea name="" id="text" cols="30" rows="10"placeholder="今日あった事を書いて、えんたぁボタンを押してくんろ"></textarea>
+        </div>
+
+<!-- <-- コンテンツ表示画面 --> 
+
+
+<!-- 以下JavaScript領域 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+
+
+<!-- 以下Firebase -->
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.14.2/firebase.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyB8-xFDGca7iJA33B0otfa5e3jCU5Bbi_c",
+    authDomain: "kadai2020425.firebaseapp.com",
+    databaseURL: "https://kadai2020425.firebaseio.com",
+    projectId: "kadai2020425",
+    storageBucket: "kadai2020425.appspot.com",
+    messagingSenderId: "588610590662",
+    appId: "1:588610590662:web:fd6462706e00f3750844c7"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+
+  const newPostRef=firebase.database().ref();
+
+
+
+var text=document.getElementById("text");// テキストエリアを変数化
+text.style.display="none";　// テキストエリアの非表示
+
+
+
+$("#botann").on("click", function(){
+
+  var elem = document.getElementById("botann");  // ボタンを非表示にさせる
+　elem.style.display="none";       // ボタンを非表示にさせる
+
+var  syaorinn = document.getElementById("talk");
+syaorinn.innerHTML="今日はどんな事があっただか？ オラに教えてくんろ"; 　// ボタンのところにこの文字が表示される。
+
+var text=document.getElementById("text");// テキストエリアを変数化
+text.style.display="block";　// テキストエリアの表示
+
+// ファイヤーベースの処理
+  newPostRef.push({
+        text: $("#text").val(), //テキストエリア
+        })
+        $("#text").val("");
+    
+
+    // エンターキーをおしたら、データが送信させるように設定
+        $("#text").on("keydown", function (e) {
+    //-------------------------------------------------------------------
+    
+    // テキストエリアでエンターを押す＋ミスと入力されていたらif処理をする
+    var jyoukenn=$("#text").val();　 // テキストボックスに入力した値
+    var bunn=  "ミス";
+    var bunn2=　"失敗";
+    var bunn3= "のかな";
+    var bunn4="できたよ";
+
+      if(e.keyCode===13 &&　jyoukenn.indexOf(bunn)>-1 ){
+        newPostRef.push({
+        text: $("#text").val(),
+        })
+        $("#text").val("");
+        var db=firebase.database();
+        var root=db.ref("/");
+
+root.on("value",function(snapshot){
+  var npc=(snapshot.val().serifu1);
+  syaorinn.innerHTML=npc;
+});  
+   
+//  ------------------------------------------------------------------------
+  // テキストエリアでエンターを押す＋失敗と入力されていたらelseif処理をする  
+ }else if(e.keyCode===13 &&　jyoukenn.indexOf(bunn2)>-1 ){
+        newPostRef.push({
+        text: $("#text").val(),
+        })
+        $("#text").val("");
+        // ファイヤーベースから文字データが返信される処理
+        var db=firebase.database();
+        var root=db.ref("/");
+
+root.on("value",function(snapshot){
+  var npc=(snapshot.val().serifu1);
+  syaorinn.innerHTML=npc;
+});
+//  ------------------------------------------------------------------------
+  // テキストエリアでエンターを押す＋のかなと入力されていたらelseif処理をする 
+}else if(e.keyCode===13 &&　jyoukenn.indexOf(bunn3)>-1 ){
+        newPostRef.push({
+        text: $("#text").val(),
+        })
+        $("#text").val("");
+        // ファイヤーベースから文字データが返信される処理
+        var db=firebase.database();
+        var root=db.ref("/");
+
+root.on("value",function(snapshot){
+  var npc=(snapshot.val().serufu4);
+  syaorinn.innerHTML=npc;
+});
+// -------------------------------------------------------------------------
+// テキストエリアでエンターを押す＋できたよと入力されていたらelseif処理をする 
+}else if(e.keyCode===13 &&　jyoukenn.indexOf(bunn4)>-1 ){
+        newPostRef.push({
+        text: $("#text").val(),
+        })
+        $("#text").val("");
+        // ファイヤーベースから文字データが返信される処理
+        var db=firebase.database();
+        var root=db.ref("/");
+
+root.on("value",function(snapshot){
+  var npc=(snapshot.val().serufu3);
+  syaorinn.innerHTML=npc;
+});
+// -----------------------------------------------------------
+// テキストエリアでエンターキーのみを押した後の処理
+ }else if(e.keyCode===13){
+   var hairetu=["そうだったんだべな","何事も適当くらいが丁度いい按配だべさ",];
+   var ohennji= Math.floor(Math.random()*hairetu.length);
+
+  newPostRef.push({
+    text:$("#text").val(),
+  })
+  $("#text").val("");
+
+
+  syaorinn.innerHTML=hairetu[ohennji];
+ }
+//-------------------------------------------------------------------
+
+ });　　//ファイヤーベースの処理のかっこ  
+
+
+
+
+
+});//JS全体のかっこ
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

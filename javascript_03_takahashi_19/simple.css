@@ -1,0 +1,21 @@
+.top{
+    text-align: center;
+}
+.midashi{ 
+  color: hotpink;
+  font-size: 60px;
+}
+p{
+    font-size: 25px;
+    line-height: 0.5em;
+}
+.gazou{
+    margin: auto;
+}
+.btm{
+    font-size: 18px;
+}
+textarea{
+    width: 600px;
+    margin: auto;
+}
